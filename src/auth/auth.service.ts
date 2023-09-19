@@ -1,26 +1,92 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+/* eslint-disable prettier/prettier */
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { SignInDto } from '../users/dto/sign_in.dto';
+import { User } from 'src/users/user.entity';
+import { RefreshToken } from './refresh_token.entity';
+import { Repository } from 'typeorm';
+import { randomBytes } from 'crypto';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly jwtService: JwtService,
+    @Inject('REFRESH_TOKEN_REPOSITORY')
+    private readonly refreshTokenRepo: Repository<RefreshToken>,
+  ) { }
+
+  async createRefreshToken(userId: string): Promise<string> {
+    const refreshToken = new RefreshToken();
+    refreshToken.userId = userId;
+    refreshToken.token = randomBytes(32).toString('hex');
+    refreshToken.expiryDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);  // 1 week
+    await this.refreshTokenRepo.save(refreshToken);
+    return refreshToken.token;
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async validateRefreshToken(userId: string, token: string) {
+    const storedToken = await this.refreshTokenRepo.findOne({ where: { userId, token } });
+    if (!storedToken) {
+      return false;
+    }
+
+    await this.refreshTokenRepo.remove(storedToken);
+
+    if (storedToken.expiryDate.getTime() < Date.now()) {
+      return false;
+    }
+    return true;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
+  async validateToken(token: string): Promise<User> {
+    const decoded = this.jwtService.decode(token);
+
+    if (!decoded) {
+      return null;
+    }
+
+    const userId = decoded["sub"];
+
+    const user = await this.usersService.findOne(userId);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
+  async validateUser(email: string, password: string): Promise<User> {
+    const user: User = await this.usersService.findByEmail(email);
+
+    if (!user){
+      throw new UnauthorizedException('Invalid credentials');
+    };
+
+    if (!(await user.validatePassword(password))) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  async createJwtToken(user: User): Promise<string> {
+    const payload = { sub: user.id, email: user.email };
+
+    return (await this.jwtService.signAsync(payload));
+  }
+
+  async signIn(signInDto: SignInDto) {
+    const { email, password } = signInDto;
+
+    const user = await this.validateUser(email, password);
+
+    return {
+      access_token: await this.createJwtToken(user),
+      refresh_token: await this.createRefreshToken(user.id),
+      user: user
+    };
   }
 }
