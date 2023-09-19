@@ -32,6 +32,20 @@
 $ npm install
 ```
 
+## Configure env variables for Postgress
+```bash
+# create .env file
+$ touch .env
+# insert the data bellow and fill the values provided in notion
+
+DB_HOST=
+DB_PORT=
+DB_DATABASE=
+DB_USERNAME=
+DB_PASSWORD=
+```
+
+
 ## Running the app
 
 ```bash
