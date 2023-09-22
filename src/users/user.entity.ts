@@ -1,10 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
 import * as bcrypt from 'bcrypt';
+import { Colaborator } from "src/colaborator/entities/colaborator.entity";
 
 @Entity()
 @Unique(["email"])
 export class User {
+  
   @PrimaryGeneratedColumn()
   id: string;
 
