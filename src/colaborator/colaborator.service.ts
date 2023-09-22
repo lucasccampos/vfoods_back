@@ -6,8 +6,15 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ColaboratorService {
+  constructor(
+    @Inject('COLABORATOR_REPOSITORY')
+    private colaboratorRepository: Repository<Colaborator>,
+  ) {}
+
   create(createColaboratorDto: CreateColaboratorDto) {
-    return 'This action adds a new colaborator';
+    const colaborator = new Colaborator();
+    Object.assign(colaborator, CreateColaboratorDto);
+    return this.colaboratorRepository.save(colaborator);
   }
 
   findAll() {

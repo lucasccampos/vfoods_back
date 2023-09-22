@@ -1,9 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateIndicatorDto } from './dto/create-indicator.dto';
 import { UpdateIndicatorDto } from './dto/update-indicator.dto';
+import { Indicator } from './entities/indicator.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class IndicatorService {
+  constructor(
+    @Inject('INDICATOR_REPOSITORY')
+    private colaboratorRepository: Repository<Indicator>,
+  ) {}
+
   create(createIndicatorDto: CreateIndicatorDto) {
     return 'This action adds a new indicator';
   }
