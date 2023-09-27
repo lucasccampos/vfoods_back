@@ -11,25 +11,58 @@ export class ColaboratorService {
     private colaboratorRepository: Repository<Colaborator>,
   ) {}
 
-  create(createColaboratorDto: CreateColaboratorDto) {
+  async create(createColaboratorDto: CreateColaboratorDto) {
     const colaborator = new Colaborator();
     Object.assign(colaborator, CreateColaboratorDto);
     return this.colaboratorRepository.save(colaborator);
   }
 
   findAll() {
-    return `This action returns all colaborator`;
+    return this.colaboratorRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} colaborator`;
+    return this.colaboratorRepository.findOne(
+      {
+        where: {
+          id: id
+        }
+      }
+    );
   }
 
-  update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
-    return `This action updates a #${id} colaborator`;
+  async update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
+    const colaborator = await this.findOne(id)
+    if (!colaborator) {
+      throw (`Colaborador com ID ${id} não encontrado`);
+    }
+
+    if (updateColaboratorDto.name) {
+      colaborator.name = updateColaboratorDto.name;
+    }
+
+    if (updateColaboratorDto.email) {
+      colaborator.email = updateColaboratorDto.email;
+    }
+
+    if (updateColaboratorDto.CEP) {
+      colaborator.CEP = updateColaboratorDto.CEP
+    }
+
+    //if (updateColaboratorDto.numero) {
+      //colaborator.numero = updateColaboratorDto.numero
+    //}
+
+    return await this.colaboratorRepository.save(colaborator);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} colaborator`;
+  async remove(id: number) {
+    const colaborator =  await this.findOne(id)
+    if (!colaborator) {
+      return `Colaborador com ID ${id} não encontrado`
+    }
+    else {
+     return this.colaboratorRepository.delete(colaborator)
+    } 
   }
 }
