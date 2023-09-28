@@ -6,6 +6,7 @@ import { Colaborator } from 'src/colaborator/entities/colaborator.entity';
 export class Indicator {
   @PrimaryGeneratedColumn('increment')
   id_indicator: number;
+
   @ManyToOne(() => Colaborator, (colaborador) => colaborador.id)
   id_colaborador: number;
 
