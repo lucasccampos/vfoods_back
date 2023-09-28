@@ -8,7 +8,7 @@ import { UpdateColaboratorDto } from './dto/update-colaborator.dto';
 export class ColaboratorController {
   constructor(private readonly colaboratorService: ColaboratorService) {}
 
-  @Post('/')
+  @Post('/create')
   create(@Body() createColaboratorDto: CreateColaboratorDto) {
     return this.colaboratorService.create(createColaboratorDto);
   }
@@ -23,13 +23,13 @@ export class ColaboratorController {
     return this.colaboratorService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateColaboratorDto: UpdateColaboratorDto) {
-    return this.colaboratorService.update(+id, updateColaboratorDto);
+  @Patch('/update')
+  async update(@Param('id') id: string, @Body() updateColaboratorDto: UpdateColaboratorDto) {
+    return await  this.colaboratorService.update(+id, updateColaboratorDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.colaboratorService.remove(+id);
+  @Delete('/delete')
+  async remove(@Param('id') id: string) {
+    return await this.colaboratorService.remove(+id);
   }
 }
