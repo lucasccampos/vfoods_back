@@ -6,7 +6,7 @@ import {
   Unique,
 } from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { DataType } from 'sequelize-typescript';
+// import { DataType } from 'sequelize-typescript';
 
 @Entity()
 @Unique(['email'])
