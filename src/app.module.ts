@@ -8,6 +8,8 @@ import { ConfigModule } from '@nestjs/config';
 import { ColaboratorModule } from './colaborator/colaborator.module';
 import { IndicatorModule } from './indicator/indicator.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TeamsModule } from './teams/teams.module';
+import { AssignModule } from './assign/assign.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     UsersModule,
     ColaboratorModule,
     IndicatorModule,
+    TeamsModule,
+    AssignModule,
   ],
   controllers: [AppController],
   providers: [AppService],

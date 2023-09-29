@@ -9,28 +9,22 @@ export class CreateColaboratorDto {
     name: string;
 
     @ApiProperty({
-        description: 'The password of the Colaborator',
-        required: true,
-    })
-    password: string;
-
-    @ApiProperty({
         description: 'The email of the Colaborator',
         required: true,
     })
     email: string;
 
     @ApiProperty({
-        description: 'The id of the responsible(User/Gestor)',
+        description: 'The cellphone of the Colaborator',
         required: true,
     })
-    id_gestor: string;
+    cellphone: string;
 
     @ApiProperty({
-        description: 'The CEP of the Colaborator',
-        required: true,
+        description: 'The imgURL of the Colaborator',
+        required: false,
     })
-    CEP: string;
+    imgURL: string;
 
     @ApiProperty({
         description: 'The date birthday of the Colaborator',

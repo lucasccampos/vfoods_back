@@ -1,11 +1,13 @@
+/* eslint-disable prettier/prettier */
+import { Team } from 'src/teams/entities/team.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
   Unique,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
-import { User } from 'src/users/user.entity';
 
 @Entity()
 @Unique(['email'])
@@ -13,8 +15,8 @@ export class Colaborator {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  id_gestor: number;
+  @Column()
+  teamId: number;
 
   @Column()
   name: string;
@@ -23,17 +25,15 @@ export class Colaborator {
   email: string;
 
   @Column()
-  CEP: string;
-
-  @Column()
-  password: string;
+  cellphone: string;
 
   @Column()
   imgURL: string;
 
-  //@Column()
-  //numero: string
-
   @Column()
   dateBirth: Date;
+
+  @ManyToOne(() => Team)
+  @JoinColumn({ name: 'teamId' })
+  team: Team;
 }
