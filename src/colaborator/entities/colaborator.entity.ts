@@ -30,7 +30,7 @@ export class Colaborator {
   @Column()
   imgURL: string;
 
-  @Column()
+  @Column('timestamp')
   dateBirth: Date;
 
   @ManyToOne(() => Team)

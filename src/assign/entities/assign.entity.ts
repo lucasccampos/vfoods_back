@@ -41,6 +41,6 @@ export class Assign {
     @Column("int", { nullable: true })
     result: number;
 
-    @Column("datetime", { nullable: true })
+    @Column("timestamp", { nullable: true })
     result_date: Date;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateColaboratorDto } from './dto/create-colaborator.dto';
 import { UpdateColaboratorDto } from './dto/update-colaborator.dto';
@@ -9,11 +10,11 @@ export class ColaboratorService {
   constructor(
     @Inject('COLABORATOR_REPOSITORY')
     private colaboratorRepository: Repository<Colaborator>,
-  ) {}
+  ) { }
 
   async create(createColaboratorDto: CreateColaboratorDto) {
     const colaborator = new Colaborator();
-    Object.assign(colaborator, CreateColaboratorDto);
+    Object.assign(colaborator, createColaboratorDto);
     return this.colaboratorRepository.save(colaborator);
   }
 
@@ -32,37 +33,23 @@ export class ColaboratorService {
   }
 
   async update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
-    const colaborator = await this.findOne(id)
+    const colaborator = await this.findOne(id);
     if (!colaborator) {
       throw (`Colaborador com ID ${id} não encontrado`);
     }
 
-    if (updateColaboratorDto.name) {
-      colaborator.name = updateColaboratorDto.name;
-    }
-
-    if (updateColaboratorDto.email) {
-      colaborator.email = updateColaboratorDto.email;
-    }
-
-    if (updateColaboratorDto.CEP) {
-      colaborator.CEP = updateColaboratorDto.CEP
-    }
-
-    //if (updateColaboratorDto.numero) {
-      //colaborator.numero = updateColaboratorDto.numero
-    //}
+    Object.assign(colaborator, updateColaboratorDto);
 
     return await this.colaboratorRepository.save(colaborator);
   }
 
   async remove(id: number) {
-    const colaborator =  await this.findOne(id)
+    const colaborator = await this.findOne(id);
     if (!colaborator) {
-      return `Colaborador com ID ${id} não encontrado`
+      return `Colaborador com ID ${id} não encontrado`;
     }
     else {
-     return this.colaboratorRepository.delete(colaborator)
-    } 
+      return this.colaboratorRepository.delete(colaborator)
+    }
   }
 }
