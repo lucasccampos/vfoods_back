@@ -13,7 +13,7 @@ export class TeamsController {
     return this.teamsService.create(createTeamDto);
   }
 
-  @Get()
+  @Get('/all')
   findAll() {
     return this.teamsService.findAll();
   }
