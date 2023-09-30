@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AssignService } from './assign.service';
 import { CreateAssignDto } from './dto/create-assign.dto';
 import { UpdateAssignDto } from './dto/update-assign.dto';
@@ -19,7 +19,7 @@ export class AssignController {
     return this.assignService.create(createAssignDto);
   }
 
-  @Get()
+  @Get('/all')
   @ApiResponse({
     status: 200,
     description: 'The records has been successfully obtained.',
@@ -29,33 +29,33 @@ export class AssignController {
     return this.assignService.findAll();
   }
 
-  @Get(':id')
+  @Get()
   @ApiResponse({
     status: 200,
     description: 'The record has been successfully obtained.',
     type: CreateAssignDto,
   })
-  findOne(@Param('id') id: string) {
-    return this.assignService.findOne(+id);
+  findOne(@Query('id_indicator') id_indicator: number, @Query('id_colaborator') id_colaborator: number, @Query('month') month: number, @Query('year') year: number) {
+    return this.assignService.findOne(id_indicator, id_colaborator, month, year);
   }
 
-  @Patch(':id')
+  @Patch()
   @ApiResponse({
     status: 200,
     description: 'The record has been successfully updated.',
     type: CreateAssignDto,
   })
-  update(@Param('id') id: string, @Body() updateAssignDto: UpdateAssignDto) {
-    return this.assignService.update(+id, updateAssignDto);
+  update(@Query('id_indicator') id_indicator: number, @Query('id_colaborator') id_colaborator: number, @Query('month') month: number, @Query('year') year: number, @Body() updateAssignDto: UpdateAssignDto) {
+    return this.assignService.update(id_indicator, id_colaborator, month, year, updateAssignDto);
   }
 
-  @Delete(':id')
+  @Delete()
   @ApiResponse({
     status: 200,
     description: 'The record has been successfully deleted.',
     type: CreateAssignDto,
   })
-  remove(@Param('id') id: string) {
-    return this.assignService.remove(+id);
+  remove(@Query('id_indicator') id_indicator: number, @Query('id_colaborator') id_colaborator: number, @Query('month') month: number, @Query('year') year: number) {
+    return this.assignService.remove(id_indicator, id_colaborator, month, year);
   }
 }
