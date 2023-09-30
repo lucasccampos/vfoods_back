@@ -22,6 +22,14 @@ export class ColaboratorService {
     return this.colaboratorRepository.find();
   }
 
+  findAllForManager (managerId) {
+    return this.colaboratorRepository.find({
+      where: {
+        managerId: managerId
+      }
+    })
+  }
+
   findOne(id: number) {
     return this.colaboratorRepository.findOne(
       {

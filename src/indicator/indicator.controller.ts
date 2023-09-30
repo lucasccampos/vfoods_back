@@ -12,11 +12,11 @@ export class IndicatorController {
     return this.indicatorService.create(createIndicatorDto);
   }
 
-  @Get()
-  findAll() {
-    return this.indicatorService.findAll();
+  @Get('/all')
+  findAllForGestor(@Param('id_gestor') id_gestor: string)  {
+    return this.indicatorService.findAllForGestor(id_gestor);
   }
-
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.indicatorService.findOne(+id);
