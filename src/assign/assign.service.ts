@@ -70,6 +70,6 @@ export class AssignService {
       return `Assign with ID ${id_indicator} ${id_colaborator} ${month} ${year} not found`;
     }
 
-    return await this.assignRepository.delete(assign);
+    return await this.assignRepository.remove(assign);
   }
 }

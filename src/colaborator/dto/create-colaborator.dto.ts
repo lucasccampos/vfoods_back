@@ -9,6 +9,12 @@ export class CreateColaboratorDto {
     name: string;
 
     @ApiProperty({
+        description: 'The managerId of the Colaborator',
+        required: true,
+    })
+    managerId: number;
+
+    @ApiProperty({
         description: 'The email of the Colaborator',
         required: true,
     })
