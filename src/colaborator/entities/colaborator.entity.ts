@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Team } from 'src/teams/entities/team.entity';
+import { User } from 'src/users/user.entity';
 import {
   Entity,
   Column,
@@ -16,7 +16,7 @@ export class Colaborator {
   id: number;
 
   @Column()
-  teamId: number;
+  managerId: number;
 
   @Column()
   name: string;
@@ -33,7 +33,7 @@ export class Colaborator {
   @Column('timestamp')
   dateBirth: Date;
 
-  @ManyToOne(() => Team)
-  @JoinColumn({ name: 'teamId' })
-  team: Team;
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'managerId' })
+  manager: User;
 }

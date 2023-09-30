@@ -49,7 +49,7 @@ export class ColaboratorService {
       return `Colaborador com ID ${id} não encontrado`;
     }
     else {
-      return this.colaboratorRepository.delete(colaborator)
+      return this.colaboratorRepository.remove(colaborator)
     }
   }
 }
