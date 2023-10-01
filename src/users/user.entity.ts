@@ -8,7 +8,7 @@ import { Colaborator } from "src/colaborator/entities/colaborator.entity";
 export class User {
   
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @Column()
   name: string;
@@ -24,12 +24,6 @@ export class User {
 
   @Column("text", { nullable: true })
   imgUrl: string;
-
-  @Column("text", { nullable: true })
-  bannerUrl: string;
-
-  @Column("text", { array: true, nullable: true })
-  socials: string[];
 
   async validatePassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password);

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserId } from 'src/auth/userId.decorator';
@@ -14,7 +14,7 @@ export class UsersController {
 
   @Get('/')
   @Public()
-  async findOne(@Query('userId') userId: string) {
+  async findOne(@Query('userId') userId: number) {
     if (!userId) {
       return;
     }
@@ -30,6 +30,7 @@ export class UsersController {
   @Get('/email')
   @Public()
   async findByEmail(@Query('email') email: string) {
+    console.log(email)
     if (!email) {
       return;
     }
@@ -42,7 +43,7 @@ export class UsersController {
     return user;
   }
 
-  @Put('/update')
+  @Patch('/update')
   async update(@UserId() userId, @Body() updateUserDto: UpdateUserDto) {
     const user = await this.usersService.update(userId, updateUserDto);
 

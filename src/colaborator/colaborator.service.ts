@@ -12,26 +12,27 @@ export class ColaboratorService {
     private colaboratorRepository: Repository<Colaborator>,
   ) { }
 
-  async create(createColaboratorDto: CreateColaboratorDto) {
+  async create(managerId: number ,createColaboratorDto: CreateColaboratorDto) {
     const colaborator = new Colaborator();
     Object.assign(colaborator, createColaboratorDto);
-    return this.colaboratorRepository.save(colaborator);
+    colaborator.managerId = managerId;
+    return await this.colaboratorRepository.save(colaborator);
   }
 
-  findAll() {
-    return this.colaboratorRepository.find();
+  async findAll() {
+    return await this.colaboratorRepository.find();
   }
 
-  findAllForManager (managerId) {
-    return this.colaboratorRepository.find({
+  async findAllForManager(managerId) {
+    return await this.colaboratorRepository.find({
       where: {
         managerId: managerId
       }
     })
   }
 
-  findOne(id: number) {
-    return this.colaboratorRepository.findOne(
+  async findOne(id: number) {
+    return await this.colaboratorRepository.findOne(
       {
         where: {
           id: id
@@ -43,7 +44,7 @@ export class ColaboratorService {
   async update(id: number, updateColaboratorDto: UpdateColaboratorDto) {
     const colaborator = await this.findOne(id);
     if (!colaborator) {
-      throw (`Colaborador com ID ${id} não encontrado`);
+      throw (`Colaborator with id ${id} not found`);
     }
 
     Object.assign(colaborator, updateColaboratorDto);
@@ -54,10 +55,10 @@ export class ColaboratorService {
   async remove(id: number) {
     const colaborator = await this.findOne(id);
     if (!colaborator) {
-      return `Colaborador com ID ${id} não encontrado`;
+      return `Colaborator with id ${id} not found`;
     }
     else {
-      return this.colaboratorRepository.remove(colaborator)
+      return await this.colaboratorRepository.remove(colaborator)
     }
   }
 }

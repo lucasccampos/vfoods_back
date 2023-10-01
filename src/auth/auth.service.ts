@@ -17,7 +17,7 @@ export class AuthService {
     private readonly refreshTokenRepo: Repository<RefreshToken>,
   ) { }
 
-  async createRefreshToken(userId: string): Promise<string> {
+  async createRefreshToken(userId: number): Promise<string> {
     const refreshToken = new RefreshToken();
     refreshToken.userId = userId;
     refreshToken.token = randomBytes(32).toString('hex');
@@ -26,7 +26,7 @@ export class AuthService {
     return refreshToken.token;
   }
 
-  async validateRefreshToken(userId: string, token: string) {
+  async validateRefreshToken(userId: number, token: string) {
     const storedToken = await this.refreshTokenRepo.findOne({ where: { userId, token } });
     if (!storedToken) {
       return false;

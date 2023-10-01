@@ -39,21 +39,21 @@ export class AuthController {
 
   @Post('/refresh')
   @UseGuards(JwtAuthGuard)
-  async refreshToken(@Req() request: Request, @Body() refreshTokenDto: { userId: string }, @Res() res: Response) {
+  async refreshToken(@Req() request: Request, @UserId() userId, @Res() res: Response) {
     const refreshToken = request.cookies['refreshToken'];
 
-    if (!refreshTokenDto.userId) {
-      throw new UnauthorizedException('User id not provided');
+    if (!userId) {
+      throw new UnauthorizedException('User ID not provided');
     }
 
-    if (!refreshToken || !(await this.authService.validateRefreshToken(refreshTokenDto.userId, refreshToken))) {
+    if (!refreshToken || !(await this.authService.validateRefreshToken(userId, refreshToken))) {
       throw new UnauthorizedException();
     }
 
-    const user = await this.usersService.findOne(refreshTokenDto.userId);
+    const user = await this.usersService.findOne(userId);
 
-    const new_jwt = this.authService.createJwtToken(user);
-    const new_refresh_token = this.authService.createRefreshToken(refreshTokenDto.userId);
+    const new_jwt = await this.authService.createJwtToken(user);
+    const new_refresh_token = await this.authService.createRefreshToken(userId);
 
     res.cookie('jwt', new_jwt, { httpOnly: true });
     res.cookie('refreshToken', new_refresh_token, { httpOnly: true });
