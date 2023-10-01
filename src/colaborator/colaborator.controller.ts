@@ -29,6 +29,11 @@ export class ColaboratorController {
     return this.colaboratorService.findAll();
   }
 
+  @Get('/all')
+  findAllForManager (@Param('managerId') managerId: string) {
+    return this.colaboratorService.findAllForManager(managerId)
+  }
+
   @Get(':id')
   @ApiResponse({
     status: 200,

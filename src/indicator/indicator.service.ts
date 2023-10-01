@@ -8,26 +8,44 @@ import { Repository } from 'typeorm';
 export class IndicatorService {
   constructor(
     @Inject('INDICATOR_REPOSITORY')
-    private colaboratorRepository: Repository<Indicator>,
+    private indicatorRepository: Repository<Indicator>,
   ) {}
 
   create(createIndicatorDto: CreateIndicatorDto) {
-    return 'This action adds a new indicator';
+    const indicator = new Indicator();
+    Object.assign(indicator, createIndicatorDto);
+    return this.indicatorRepository.save(indicator);
   }
 
   findAll() {
-    return `This action returns all indicator`;
+    return this.indicatorRepository.find();
+  }
+
+  findAllForGestor(id_gestor: string){
+    return this.indicatorRepository.find({
+      where: {
+        id_gestor: id_gestor
+      }
+    })
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} indicator`;
+    return this.indicatorRepository.findOne({
+      where: {
+       id_indicator:id 
+      }
+    });
   }
 
-  update(id: number, updateIndicatorDto: UpdateIndicatorDto) {
-    return `This action updates a #${id} indicator`;
+  async update(id: number, updateIndicatorDto: UpdateIndicatorDto) {
+    const indicador = await this.findOne(id) 
+    Object.assign(indicador, updateIndicatorDto)
+
+    return this.indicatorRepository.save(indicador)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} indicator`;
+  async remove(id: number) {
+    const indicador = await this.findOne(id)
+    return this.indicatorRepository.delete(indicador);
   }
 }
