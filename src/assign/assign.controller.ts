@@ -1,11 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from '@nestjs/common';
 import { AssignService } from './assign.service';
 import { CreateAssignDto } from './dto/create-assign.dto';
 import { UpdateAssignDto } from './dto/update-assign.dto';
 import { ApiResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('assign')
+@UseGuards(JwtAuthGuard)
 export class AssignController {
   constructor(private readonly assignService: AssignService) {}
 

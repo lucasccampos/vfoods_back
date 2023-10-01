@@ -51,7 +51,7 @@ export class IndicatorController {
     return this.indicatorService.update(id, updateIndicatorDto);
   }
 
-  @Delete('delete/:id')
+  @Delete('/delete/:id')
   remove(@Param('id') id: number) {
     return this.indicatorService.remove(id);
   }
