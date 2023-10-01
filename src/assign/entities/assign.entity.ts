@@ -7,10 +7,10 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 @Entity()
 export class Assign {
     @PrimaryColumn()
-    id_colaborator: number;
+    colaboratorId: number;
 
     @PrimaryColumn()
-    id_indicator: number;
+    indicatorId: number;
 
     @PrimaryColumn()
     month: number;
@@ -19,28 +19,28 @@ export class Assign {
     year: number;
   
     @ManyToOne(() => Colaborator)
-    @JoinColumn({ name: 'id_colaborator' })
+    @JoinColumn({ name: 'colaboratorId' })
     colaborator: Colaborator;
 
     @ManyToOne(() => Indicator)
-    @JoinColumn({ name: 'id_indicator' })
+    @JoinColumn({ name: 'indicatorId' })
     indicator: Indicator;
 
-    @Column()
+    @Column('double precision')
     weight: number;
 
-    @Column()
+    @Column('double precision')
     meta: number;
 
-    @Column()
-    super_meta: number;
+    @Column('double precision')
+    superMeta: number;
 
-    @Column()
+    @Column('double precision')
     challenge: number;
 
-    @Column("int", { nullable: true })
+    @Column('double precision', { nullable: true })
     result: number;
 
     @Column("timestamp", { nullable: true })
-    result_date: Date;
+    resultDate: Date;
 }

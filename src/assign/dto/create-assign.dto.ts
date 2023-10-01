@@ -22,14 +22,14 @@ export class CreateAssignDto {
         description: 'The id of the colaborator',
         required: true,
     })
-    id_colaborator: number;
+    colaboratorId: number;
 
     // id_indicator variable
     @ApiProperty({
         description: 'The id of the indicator',
         required: true,
     })
-    id_indicator: number;
+    indicatorId: number;
 
     // weight variable
     @ApiProperty({
@@ -50,7 +50,7 @@ export class CreateAssignDto {
         description: 'The super meta of the assign',
         required: true,
     })
-    super_meta: number;
+    superMeta: number;
 
     // challenge variable
     @ApiProperty({
@@ -71,5 +71,5 @@ export class CreateAssignDto {
         description: 'The result date of the assign',
         required: false,
     })
-    result_date: Date;
+    resultDate: Date;
 }
