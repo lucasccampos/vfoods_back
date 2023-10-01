@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateIndicatorDto } from './dto/create-indicator.dto';
 import { UpdateIndicatorDto } from './dto/update-indicator.dto';
@@ -9,11 +10,13 @@ export class IndicatorService {
   constructor(
     @Inject('INDICATOR_REPOSITORY')
     private indicatorRepository: Repository<Indicator>,
-  ) {}
+  ) { }
 
-  create(createIndicatorDto: CreateIndicatorDto) {
+  create(managerId: number, createIndicatorDto: CreateIndicatorDto) {
     const indicator = new Indicator();
     Object.assign(indicator, createIndicatorDto);
+    indicator.managerId = managerId;
+
     return this.indicatorRepository.save(indicator);
   }
 
@@ -21,31 +24,31 @@ export class IndicatorService {
     return this.indicatorRepository.find();
   }
 
-  findAllForGestor(id_gestor: string){
+  findAllForManager(managerId: number) {
     return this.indicatorRepository.find({
       where: {
-        id_gestor: id_gestor
-      }
-    })
+        "managerId": managerId,
+      },
+    });
   }
 
   findOne(id: number) {
     return this.indicatorRepository.findOne({
       where: {
-       id_indicator:id 
-      }
+        id: id,
+      },
     });
   }
 
   async update(id: number, updateIndicatorDto: UpdateIndicatorDto) {
-    const indicador = await this.findOne(id) 
-    Object.assign(indicador, updateIndicatorDto)
+    const indicador = await this.findOne(id);
+    Object.assign(indicador, updateIndicatorDto);
 
-    return this.indicatorRepository.save(indicador)
+    return await this.indicatorRepository.save(indicador);
   }
 
   async remove(id: number) {
-    const indicador = await this.findOne(id)
-    return this.indicatorRepository.delete(indicador);
+    const indicador = await this.findOne(id);
+    return await this.indicatorRepository.remove(indicador);
   }
 }

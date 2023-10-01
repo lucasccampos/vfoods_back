@@ -30,7 +30,7 @@ export class UsersService {
     return this.userRepository.find();
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: number): Promise<User> {
     return this.userRepository.findOne({
       where: {
         id: id,
@@ -46,7 +46,7 @@ export class UsersService {
     });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
     Object.assign(user, updateUserDto);
@@ -55,7 +55,7 @@ export class UsersService {
   }
 
   async updatePassword(
-    id: string,
+    id: number,
     old_password: string,
     new_password: string,
   ): Promise<User> {

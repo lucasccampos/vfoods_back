@@ -1,18 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from 'src/users/user.entity';
-import { Colaborator } from 'src/colaborator/entities/colaborator.entity';
 
 @Entity()
 export class Indicator {
   @PrimaryGeneratedColumn('increment')
-  id_indicator: number;
+  id: number;
 
-  @ManyToOne(() => User, (user) => user.id)
-  id_gestor: string;
+  @Column()
+  managerId: number;
 
   @Column()
   name: string;
 
   @Column()
-  Description: string;
+  description: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'managerId' })
+  manager: User;
 }

@@ -28,7 +28,10 @@ export class Colaborator {
   cellphone: string;
 
   @Column()
-  imgURL: string;
+  address: string;
+
+  @Column({nullable: true})
+  imgUrl: string;
 
   @Column('timestamp')
   dateBirth: Date;
