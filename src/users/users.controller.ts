@@ -19,7 +19,6 @@ export class UsersController {
       return;
     }
     const user = await this.usersService.findOne(userId);
-    // remover password do user se ele existir
     if (!user) {
       throw new Error('User not found');
     }

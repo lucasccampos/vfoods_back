@@ -38,7 +38,7 @@ export class AuthController {
 
     delete user.password;
 
-    return res.status(200).send(user);
+    return res.status(200).send({ user, "jwt": access_token });
   }
 
   @Post('/refresh')
