@@ -14,11 +14,16 @@ const cookieExtractor = (req) => {
   return jwt;
 };
 
+const extractTokenFromHeader = (req): string | undefined => {
+  const [type, token] = req.headers.authorization?.split(' ') ?? [];
+  return type === 'Bearer' ? token : undefined;
+};
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly jwtService: JwtService) {
     super({
-      jwtFromRequest: cookieExtractor,
+      jwtFromRequest: extractTokenFromHeader,
       secretOrKey: jwtConstants.secret,
     });
   }

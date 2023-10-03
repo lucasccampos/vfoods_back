@@ -8,6 +8,15 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  // app.use((req, res, next) => {
+  //   res.header('Access-Control-Allow-Origin', '*'); // Permite qualquer origem
+  //   res.header(
+  //     'Access-Control-Allow-Headers',
+  //     'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  //   );
+  //   next();
+  // });
+
   const config = new DocumentBuilder()
     .setTitle('Vfoods backend document')
     .setDescription('Vfoods API description')
@@ -18,7 +27,12 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   app.setGlobalPrefix('api');
-  app.enableCors(); // Permite todas as origens (não recomendado para produção)
+  app.enableCors({
+    credentials: false,
+    origin: '*',
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  });
   await app.listen(3000);
 }
 bootstrap();

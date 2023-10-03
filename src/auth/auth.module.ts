@@ -17,7 +17,7 @@ import { Reflector } from '@nestjs/core';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '3h' },
     }),
     UsersModule,
     DatabaseModule,
