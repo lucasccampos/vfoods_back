@@ -78,4 +78,8 @@ export class UsersService {
 
     return this.userRepository.save(user);
   }
+
+  async deleteAll(): Promise<void> {
+    await this.userRepository.clear();
+  }
 }

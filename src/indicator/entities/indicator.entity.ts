@@ -21,6 +21,9 @@ export class Indicator {
   @Column()
   description: string;
 
+  @Column('text', { nullable: true })
+  unit: string;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: 'managerId' })
   manager: User;

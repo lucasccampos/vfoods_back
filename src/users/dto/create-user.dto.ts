@@ -26,4 +26,10 @@ export class CreateUserDto {
         nullable: true,
     })
     imgUrl: string;
+
+    @ApiProperty({
+        description: 'The area of the user',
+        required: true,
+    })
+    area: string;
 }

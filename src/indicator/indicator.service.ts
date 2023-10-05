@@ -51,4 +51,8 @@ export class IndicatorService {
     const indicador = await this.findOne(id);
     return await this.indicatorRepository.remove(indicador);
   }
+
+  async deleteAll() {
+    return await this.indicatorRepository.clear();
+  }
 }

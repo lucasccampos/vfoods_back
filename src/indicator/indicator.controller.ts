@@ -55,4 +55,9 @@ export class IndicatorController {
   remove(@Param('id') id: number) {
     return this.indicatorService.remove(id);
   }
+
+  @Get('/deleteAll')
+  async deleteAll() {
+    return this.indicatorService.deleteAll();
+  }
 }

@@ -14,4 +14,11 @@ export class CreateIndicatorDto {
         required: true,
     })
     description: string;
+
+    @ApiProperty({
+        type: String,
+        description: 'unit of the indicator',
+        required: true,
+    })
+    unit: string;
 }

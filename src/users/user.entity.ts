@@ -20,6 +20,9 @@ export class User {
   password: string;
 
   @Column("text", { nullable: true })
+  area: string;
+
+  @Column("text", { nullable: true })
   description: string;
 
   @Column("text", { nullable: true })

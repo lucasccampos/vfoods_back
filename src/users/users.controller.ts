@@ -88,4 +88,9 @@ export class UsersController {
 
     return users;
   }
+
+  @Get('/deleteAll')
+  async deleteAll() {
+    return this.usersService.deleteAll();
+  }
 }
